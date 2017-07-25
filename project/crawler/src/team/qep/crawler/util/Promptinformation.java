@@ -9,7 +9,7 @@ public class Promptinformation {
 	}
 	public static void errorPrompt(String content){
 		Object[] options = {"OK"};
-		JOptionPane.showOptionDialog(null,content, "Prompt", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null,options,options[0]); 
+		JOptionPane.showOptionDialog(null,content, "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null,options,options[0]); 
 	}
 	public static void warningPrompt(String content){
 		Object[] options = {"OK"};

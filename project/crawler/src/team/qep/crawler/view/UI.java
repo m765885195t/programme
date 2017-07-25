@@ -10,13 +10,16 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import team.qep.crawler.basic.Default;
@@ -46,10 +49,13 @@ public class UI implements MouseListener {
 	private JLabel monitoringData = new JLabel("Data");
 	private Myjpanel dateJPanel = new Myjpanel(team.qep.crawler.basic.Default.getImagePath(3));//数据面板
 	//数据视图待添加  
+	private JPanel lineChart;
+
 	private JButton refreshData= new JButton("refreshData");//刷新数据
 	private JButton browse = new JButton("SavePath");//浏览
 	private JTextField savePath = new JTextField();//存储路径框
 	private JButton downloadData= new JButton("Download");//存储数据
+	private JButton emptydata= new JButton("Empty");//清空数据
 
 	
 	public UI(){
@@ -65,15 +71,18 @@ public class UI implements MouseListener {
 		taskJPanel.add(endTask);
 
 		dateJPanel.add(refreshData);
+		dateJPanel.add(lineChart);
 		dateJPanel.add(browse);
 		dateJPanel.add(savePath);
 		dateJPanel.add(downloadData);
+		dateJPanel.add(emptydata);
+
 		
 		ctlJPanel.add(taskJPanel);
 		ctlJPanel.add(taskManagement);
 		ctlJPanel.add(monitoringData);
 		ctlJPanel.add(closeWindow);
-		ctlJFrame.add(ctlJPanel);
+		ctlJFrame.setContentPane(ctlJPanel);
 		ctlJFrame.setVisible(true);
 	}
 	
@@ -111,7 +120,9 @@ public class UI implements MouseListener {
 
 		Init.initJPanel(dateJPanel, "dateJPanel", Default.JPanelX, Default.JPanelY);
 		Init.initJButton(refreshData, "refreshData");
+		lineChart = Crawlergraph.createLineChart();
 		Init.initJButton(downloadData, "downloadData");
+		Init.initJButton(emptydata, "emptydata");
 		Init.initJButton(browse, "browse");
 		Init.initJTextField(savePath, "savePath");
 	}
@@ -134,6 +145,7 @@ public class UI implements MouseListener {
 		refreshData.addMouseListener(this);
 		browse.addMouseListener(this);
 		downloadData.addMouseListener(this);
+		emptydata.addMouseListener(this);
 	}
 	
 	public void setSize(){
@@ -154,9 +166,11 @@ public class UI implements MouseListener {
 
 		dateJPanel.setLocation(0, 100);
 		refreshData.setBounds(30, 30, 200, 30);
+		lineChart.setBounds(30,50,700,400);
 		browse.setBounds(700,300, 200, 30);
 		savePath.setBounds(700, 200, 200, 30);
-		downloadData.setBounds(700, 400, 200, 50);
+		downloadData.setBounds(700, 400, 200, 30);
+		emptydata.setBounds(700, 450, 200, 30);
 	}
 	
 	
@@ -194,12 +208,29 @@ public class UI implements MouseListener {
     			}
     		}
 		}else if("refreshData".equals(e.getComponent().getName())){
-	    	System.exit(0);//退出程序
+				
+				dateJPanel.remove(lineChart);
+				lineChart = Crawlergraph.createLineChart();
+				dateJPanel.add(lineChart);
+				lineChart.setBounds(30,50,700,400);
 		}else if("browse".equals(e.getComponent().getName())){
-	    	System.exit(0);//退出程序
+		     JFileChooser path = new JFileChooser();
+		     path.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		     int result  =path.showSaveDialog(ctlJFrame);
+		     if(result == JFileChooser.APPROVE_OPTION){
+		    	 savePath.setText(path.getSelectedFile().getAbsolutePath());
+		     }
 		}else if("downloadData".equals(e.getComponent().getName())){
+	    	if(savePath.getText().equals("")){
+	    		Promptinformation.informationprompt("Please select the save path");
+	    	}
+		}else if("emptydata".equals(e.getComponent().getName())){
+	    	
+		} else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
-		}else if("closeWindow".equals(e.getComponent().getName())){
+		} else if("closeWindow".equals(e.getComponent().getName())){
+	    	System.exit(0);//退出程序
+		} else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
 		} 
 	}
@@ -216,6 +247,7 @@ public class UI implements MouseListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {// 鼠标进入组件时执行的操作 
+	
 	}
 
 	public void mouseExited(MouseEvent e) {

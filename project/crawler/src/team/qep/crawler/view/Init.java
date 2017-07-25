@@ -75,11 +75,11 @@ public class Init{
 	public static void initJTextField(JTextField username,String str){
 //		username.setOpaque(false);//设为透明
 //		username.setBorder(null);//去掉边框
-		username.setFont(new Font("微软雅黑",1, 21));//设置字体格式
+		username.setFont(new Font("微软雅黑",0, 17));//设置字体格式
 		username.setName(str);//设置文本框的名字
 		username.setForeground(Color.black);//设置前景色为灰
 		username.setBackground(Color.white);//设置背景色为白
-//		username.setEditable(false);//屏蔽输入
+		username.setEditable(false);//屏蔽输入
 //		username.setFocusable(false);//消除光标
 //		username.setDocument(new MyDocument(16));//限制密码输入长度
 
