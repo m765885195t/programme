@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -165,12 +166,12 @@ public class UI implements MouseListener {
 		endTask.setBounds(700, 450, 200,30);
 
 		dateJPanel.setLocation(0, 100);
-		refreshData.setBounds(30, 30, 200, 30);
-		lineChart.setBounds(30,50,700,400);
-		browse.setBounds(700,300, 200, 30);
-		savePath.setBounds(700, 200, 200, 30);
-		downloadData.setBounds(700, 400, 200, 30);
-		emptydata.setBounds(700, 450, 200, 30);
+		lineChart.setBounds(30,30,940,400);
+		refreshData.setBounds(30, 450,110, 30);
+		browse.setBounds(700,450, 100, 30);
+		savePath.setBounds(500, 450, 200, 30);
+		downloadData.setBounds(870, 450, 100, 30);
+		emptydata.setBounds(200, 450, 100, 30);
 	}
 	
 	
@@ -188,17 +189,21 @@ public class UI implements MouseListener {
 	    	ctlJPanel.add(dateJPanel);
 	    	ctlJPanel.updateUI();
 	    }else if("startTask".equals(e.getComponent().getName())){
-	    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(taskData));
-	    	if(Task.beginTask(startTaskSet, Integer.valueOf(processNumber.getSelectedItem()))){
-	    		int taskNumber = Integer.valueOf(String.valueOf(viewJTable.getValueAt(viewJTable.getRowCount()-1,0)))+1;
-	    		for(int i=0 ; i<startTaskSet.length ; i++){
-	    			taskModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
-	    		}
-
-	    		Promptinformation.informationprompt("Task submission successful!   Repetitive tasks have been removed ");
-	    		distributionTask.setText("");
+	    	if(!distributionTask.getText().equals("")){
+		    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(taskData));
+		    	if(Task.beginTask(startTaskSet, Integer.valueOf(processNumber.getSelectedItem()))){
+		    		int taskNumber = Integer.valueOf(String.valueOf(viewJTable.getValueAt(viewJTable.getRowCount()-1,0)))+1;
+		    		for(int i=0 ; i<startTaskSet.length ; i++){
+		    			taskModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
+		    		}
+	
+		    		Promptinformation.informationprompt("Task submission successful!   Repetitive tasks have been removed ");
+		    		distributionTask.setText("");
+		    	}else{
+		    		Promptinformation.errorPrompt("The task submission failed. Check network connections!");
+		    	}
 	    	}else{
-	    		Promptinformation.errorPrompt("The task submission failed. Check network connections!");
+	    		Promptinformation.errorPrompt("Task set is empty, please check!!!");
 	    	}
 		}else if("endTask".equals(e.getComponent().getName())){
     		if(Promptinformation.confirmPrompt("Confirm termination task?")==0){
@@ -212,7 +217,8 @@ public class UI implements MouseListener {
 				dateJPanel.remove(lineChart);
 				lineChart = Crawlergraph.createLineChart();
 				dateJPanel.add(lineChart);
-				lineChart.setBounds(30,50,700,400);
+				lineChart.setBounds(30,30,940,400);
+				dateJPanel.updateUI();
 		}else if("browse".equals(e.getComponent().getName())){
 		     JFileChooser path = new JFileChooser();
 		     path.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -225,7 +231,11 @@ public class UI implements MouseListener {
 	    		Promptinformation.informationprompt("Please select the save path");
 	    	}
 		}else if("emptydata".equals(e.getComponent().getName())){
-	    	
+			if(Promptinformation.confirmPrompt("Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
+				//清空操作
+				Promptinformation.informationprompt("Has been emptied");
+			}
+		
 		} else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
 		} else if("closeWindow".equals(e.getComponent().getName())){
@@ -247,10 +257,21 @@ public class UI implements MouseListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {// 鼠标进入组件时执行的操作 
-	
+		 if("endTask".equals(e.getComponent().getName())){
+			 endTask.setBorder(BorderFactory.createLineBorder(new Color(245,245,245)));//按键边框色
+			 endTask.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 endTask.setBackground(new Color(	51,153,204));//按键背景色
+		 }
 	}
 
 	public void mouseExited(MouseEvent e) {
+		 if("endTask".equals(e.getComponent().getName())){
+			 endTask.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
+			 endTask.setForeground(new Color(	51,153,204));
+			 endTask.setBackground(new Color(245,245,245));
+
+		 }
+
 	}
 	public static void main(String[] args) {
 		new UI();

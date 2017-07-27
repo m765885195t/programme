@@ -99,7 +99,8 @@ public class Init{
 		jb.setFocusable(false);//消除光标
 //		jb.setContentAreaFilled(false);//按键透明
 //		jb.setIcon(new ImageIcon(""));//设置背景
-//		jb.setBorder(null);//去掉边框
+		jb.setBorder(null);//去掉边框
+		jb.setFont(new Font("微软雅黑",0,20));
 	}
 	//---------面板初始化
 	public static void initJPanel(JPanel jp,String str,int size_X,int size_Y){

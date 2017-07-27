@@ -83,7 +83,7 @@ public class Crawlergraph {
 	    	domainAxis.setTickLabelFont(new Font("sans-serif", 1, 13));  
 	        domainAxis.setLabelFont(new Font("sans-serif", 1, 13));  
 //	         用于显示X轴刻度  
-	        domainAxis.setTickMarksVisible(true);  
+      	    domainAxis.setTickMarksVisible(true);  
 	        //设置X轴45度  
 //	        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);  
 	    }  
@@ -103,7 +103,7 @@ public class Crawlergraph {
 	    private static DefaultCategoryDataset getDataSet() {  
 	        DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();  
 	        String[][] dataSet = Data.getDataSet();
-           for(int i=0 ; i<dataSet.length ; i++){
+            for(int i=0 ; i<dataSet.length ; i++){
                 defaultcategorydataset.addValue(Integer.valueOf(dataSet[i][0]), dataSet[i][1], dataSet[i][2]);  
             }  
 	        return defaultcategorydataset;  

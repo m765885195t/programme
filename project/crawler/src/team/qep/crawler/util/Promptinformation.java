@@ -2,6 +2,7 @@ package team.qep.crawler.util;
 
 import javax.swing.JOptionPane;
 
+//自定义消息提示框
 public class Promptinformation {
 	public static void informationprompt(String content){
 		Object[] options = {"OK"};
