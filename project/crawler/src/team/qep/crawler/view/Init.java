@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -37,6 +39,7 @@ import javax.swing.table.TableRowSorter;
 public class Init{
 	//---------窗口的初始化方式
 	public static void initJFrame(JFrame jf,String str,int x,int y){//主窗口,窗口名,窗口大小
+		 jf.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 		jf.setLayout(null);//清除布局方式
 //		jf.setResizable(false);//不可改变大小
 		jf.setSize(x, y);
@@ -99,8 +102,12 @@ public class Init{
 		jb.setFocusable(false);//消除光标
 //		jb.setContentAreaFilled(false);//按键透明
 //		jb.setIcon(new ImageIcon(""));//设置背景
-		jb.setBorder(null);//去掉边框
+//		jb.setBorder(null);//去掉边框
 		jb.setFont(new Font("微软雅黑",0,20));
+		
+		jb.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
+		jb.setForeground(new Color(	51,153,204));
+		jb.setBackground(new Color(245,245,245));
 	}
 	//---------面板初始化
 	public static void initJPanel(JPanel jp,String str,int size_X,int size_Y){

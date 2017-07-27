@@ -1,7 +1,6 @@
 package team.qep.crawler.server;
 
 public class Data {
-
 	//得到数据爬取量生成折线图
 	public static String[][] getDataSet(){
 		return new String[][]{{"0","E-Commerce","13:00"},

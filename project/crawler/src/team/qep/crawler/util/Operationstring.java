@@ -1,13 +1,27 @@
 package team.qep.crawler.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import team.qep.crawler.basic.Default;
 
 //字符串转换工具
 public class Operationstring {
+	//将输入的任务集分割成字符数组
 	public static String[] splitString(String string){
-		return null;
+		ArrayList<String> strlist = new ArrayList<String>();
+        String str[] = string.split("\n");
+        for(int i=0 ; i<str.length ; i++){
+        	String tem = str[i].replace(" ", "");
+        	if(!tem.equals("")){
+        		strlist.add(tem);
+        	}
+        }
+		return (String[])strlist.toArray(new String[strlist.size()]);
 	}
-	//从正在运行的任务中提取链接
+	//从正在运行的任务中提取url
 	public static String[] extractString(String[][] string){
 		ArrayList<String> strlist = new ArrayList<String>();
 		for(int i=0 ; i<string.length ; i++){
@@ -16,18 +30,40 @@ public class Operationstring {
 		
 		return (String[])strlist.toArray(new String[strlist.size()]);
 	}
-	public static String[] differenceString(String[] string,String[] string2){
-		return null;
-	}
-	public static void main(String[] args){
-		String[][] a =  new String[][]{{"1","www.baidu.com"},
-			{"2","www.sina.cn"},
-			{"3","www.csdn.cn"},
-			{"4","www.taobao.cn"},
-			{"5","www.tmall.cn"}};
-			String[] b= extractString(a);
-			for(int i=0 ; i<b.length ; i++){
-				System.out.println(b[i]);
+	//得到正确的发布任务
+	public static String[] differenceString(String[] string1,String[] string2){
+		String[] defaultTask = Default.getDefaultUrl();
+		ArrayList<String> strlist = new ArrayList<String>();
+		
+		for(int i=0 ; i<string1.length ; i++){
+			//添加成功的url一定在默认任务集中，且不能在正在运行的任务中，格式一定要完整正确
+			if(!inTheArray(string2,string1[i]) && inTheArray(defaultTask, string1[i])){
+				strlist.add(string1[i]);
 			}
+		}
+		
+		if(!strlist.isEmpty()){
+			return (String[])strlist.toArray(new String[strlist.size()]);
+		}
+		return null; 
+	}
+	//判断字符串数组中是否有某个字符串
+	public static boolean inTheArray(String[] str,String string) {
+		List<String> list=Arrays.asList(str);
+		if(list.contains(string)){
+			return true;
+		}
+		return false;
+	}
+	//将字符数组转换为长字符串
+	public static String toLangString(String[] str) {
+		StringBuilder string = new StringBuilder();
+		for(int i=0 ; i<str.length ; i++){
+			string.append(str[i]+" ");
+		}
+		return string.toString();
+	}
+	//测试代码
+	public static void main(String[] args){
 	}
 }

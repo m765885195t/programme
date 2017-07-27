@@ -31,15 +31,17 @@ import team.qep.crawler.util.Promptinformation;
 public class UI implements MouseListener {
 	private JFrame ctlJFrame = new JFrame();
 	private Myjpanel ctlJPanel = new Myjpanel(Default.getImagePath(1));//主界面
+	private Myjpanel logo = new Myjpanel(Default.getDynamicImagePath(1));//主界面
 	private JButton closeWindow = new JButton("..."); 
+	private JButton zoom = new JButton("..."); //缩放窗口
+
 	private static Point mousePosition = new Point();// 全局的位置变量，用于表示鼠标在窗口上的位置
 
 	private JLabel taskManagement = new JLabel("Task");
 	private Myjpanel taskJPanel = new Myjpanel(team.qep.crawler.basic.Default.getImagePath(2));//任务面板
 	private JTextArea distributionTask = new JTextArea();//分发任务集
 	private JScrollPane distributionJSPanel = new JScrollPane(distributionTask);
-	private JLabel prompt = new JLabel("ForkNumber:");
-	private Choice processNumber = new Choice();//从机数
+	private Choice defaultTask = new Choice();//默认任务集
 	private JButton startTask= new JButton("start");//开始任务
 	private String[][] taskData ;////在运行任务
 	private DefaultTableModel taskModel;
@@ -66,8 +68,7 @@ public class UI implements MouseListener {
 		
 		taskJPanel.add(startTask);
 		taskJPanel.add(distributionJSPanel);
-		taskJPanel.add(prompt);
-		taskJPanel.add(processNumber);
+		taskJPanel.add(defaultTask);
 		taskJPanel.add(viewJSPanel);
 		taskJPanel.add(endTask);
 
@@ -82,7 +83,9 @@ public class UI implements MouseListener {
 		ctlJPanel.add(taskJPanel);
 		ctlJPanel.add(taskManagement);
 		ctlJPanel.add(monitoringData);
+		ctlJPanel.add(zoom);
 		ctlJPanel.add(closeWindow);
+		ctlJPanel.add(logo);
 		ctlJFrame.setContentPane(ctlJPanel);
 		ctlJFrame.setVisible(true);
 	}
@@ -90,7 +93,9 @@ public class UI implements MouseListener {
 	public void init(){
 		Init.initJFrame(ctlJFrame, "ctlJFrame", Default.JFrameX, Default.JFrameY);
 		Init.initJPanel(ctlJPanel, "ctlJPanel",  Default.JFrameX,Default.JFrameY);
+		Init.initJPanel(logo, "logo", 100,100);
 		Init.initJButton(closeWindow, "closeWindow");
+		Init.initJButton(zoom, "zoom");
 		Init.initJLable(taskManagement, "taskManagement");
 		taskManagement.setForeground(Color.red);
 		taskManagement.setFont(new Font("微软雅黑",0,32));
@@ -101,14 +106,10 @@ public class UI implements MouseListener {
 		Init.initJPanel(taskJPanel, "taskJPanel",  Default.JPanelX, Default.JPanelY);
 		Init.initJTextArea(distributionTask, "distributionTask");
 		Init.initJScrollPane(distributionJSPanel, "distributionJSPanel");
-		Init.initJLable(prompt, "prompt");
-		prompt.setCursor(Cursor.getPredefinedCursor(0));
-		prompt.setForeground(Color.green);
-		prompt.setFont(new Font("微软雅黑",0,20));
-		Init.initChoice(processNumber, "processNumber");
+		Init.initChoice(defaultTask, "defaultTask");
 		Init.initJButton(startTask, "startTask");
 		Init.initJTable(viewJTable, "viewJTable");
-		taskData = Task.getRunningTask();
+		taskData = Task.getRunningTask(5);
 	    taskModel = new DefaultTableModel(taskData,Default.getTaskViewJColumnNames()){
 			public boolean isCellEditable(int row,int column){ 
 				return false;
@@ -136,6 +137,7 @@ public class UI implements MouseListener {
 				ctlJFrame.setLocation(tem.x + e.getX() - mousePosition.x, tem.y + e.getY()- mousePosition.y);
 			}
 		});
+		zoom.addMouseListener(this);
 		closeWindow.addMouseListener(this);
 		
 		taskManagement.addMouseListener(this);
@@ -150,20 +152,21 @@ public class UI implements MouseListener {
 	}
 	
 	public void setSize(){
+		zoom.setBounds(940,0, 30, 30);
 		closeWindow.setBounds(970,0, 30, 30);
 		taskManagement.setBounds(200,20, 100, 50);
 		monitoringData.setBounds(700, 20, 100, 50);
 
 		taskJPanel.setLocation(0, 100);
 		distributionJSPanel.setBounds(50, 20, 250, 400);
-		prompt.setBounds(30, 430, 150,30);
-		processNumber.setBounds(200, 430, 100,30);
-		for(int i=1 ; i<Default.processNumber ; i++){
-			processNumber.add(String.valueOf(i));
+		defaultTask.setBounds(30, 430, 300,30);
+		defaultTask.add("Currently supporting task sets");
+		for(String str:Default.getDefaultUrl()){
+			defaultTask.add(str);
 		}
 		startTask.setBounds(50, 470, 200, 30);
 		viewJSPanel.setBounds(550, 20, 400, 350);
-		endTask.setBounds(700, 450, 200,30);
+		endTask.setBounds(700, 450, 120,30);
 
 		dateJPanel.setLocation(0, 100);
 		lineChart.setBounds(30,30,940,400);
@@ -191,16 +194,21 @@ public class UI implements MouseListener {
 	    }else if("startTask".equals(e.getComponent().getName())){
 	    	if(!distributionTask.getText().equals("")){
 		    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(taskData));
-		    	if(Task.beginTask(startTaskSet, Integer.valueOf(processNumber.getSelectedItem()))){
-		    		int taskNumber = Integer.valueOf(String.valueOf(viewJTable.getValueAt(viewJTable.getRowCount()-1,0)))+1;
-		    		for(int i=0 ; i<startTaskSet.length ; i++){
-		    			taskModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
-		    		}
 	
-		    		Promptinformation.informationprompt("Task submission successful!   Repetitive tasks have been removed ");
-		    		distributionTask.setText("");
+		    	if(startTaskSet != null){
+			    	if(Task.beginTask(1,startTaskSet)){
+			    		for(int i=0 ; i<startTaskSet.length ; i++){
+			    			System.out.println("正确的任务:"+startTaskSet[i]);
+				    		int taskNumber = Integer.valueOf(String.valueOf(viewJTable.getValueAt(viewJTable.getRowCount()-1,0)))+1;
+			    			taskModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
+			    		}
+			    		Promptinformation.informationprompt("Successful submission has been done automatically with duplicate tasks and unsupported tasks.");
+			    		distributionTask.setText("");
+			    	}else{
+			    		Promptinformation.errorPrompt("The task submission failed. Check network connections!");
+			    	}
 		    	}else{
-		    		Promptinformation.errorPrompt("The task submission failed. Check network connections!");
+		    		Promptinformation.informationprompt("Please enter the correct url with the currently supported url");
 		    	}
 	    	}else{
 	    		Promptinformation.errorPrompt("Task set is empty, please check!!!");
@@ -209,7 +217,13 @@ public class UI implements MouseListener {
     		if(Promptinformation.confirmPrompt("Confirm termination task?")==0){
     			int selectedRow = viewJTable.getSelectedRow(); // 获得选中行索引
     			if(selectedRow!=-1){
-    		    	taskModel.removeRow(selectedRow); // 删除行
+    				System.out.println("选中的是:"+viewJTable.getValueAt(selectedRow, 1).toString());
+    				if(Task.endTask(15,viewJTable.getValueAt(selectedRow, 1).toString())){
+    					taskModel.removeRow(selectedRow); // 删除行
+    		    		Promptinformation.informationprompt("successfully deleted");
+    				}
+    			}else{
+		    		Promptinformation.informationprompt("Please select a task");
     			}
     		}
 		}else if("refreshData".equals(e.getComponent().getName())){
@@ -233,13 +247,14 @@ public class UI implements MouseListener {
 		}else if("emptydata".equals(e.getComponent().getName())){
 			if(Promptinformation.confirmPrompt("Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
 				//清空操作
+				
 				Promptinformation.informationprompt("Has been emptied");
 			}
 		
 		} else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
-		} else if("closeWindow".equals(e.getComponent().getName())){
-	    	System.exit(0);//退出程序
+		} else if("zoom".equals(e.getComponent().getName())){
+			ctlJFrame.setExtendedState(JFrame.ICONIFIED);
 		} else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
 		} 
@@ -260,16 +275,15 @@ public class UI implements MouseListener {
 		 if("endTask".equals(e.getComponent().getName())){
 			 endTask.setBorder(BorderFactory.createLineBorder(new Color(245,245,245)));//按键边框色
 			 endTask.setForeground(new Color(245,245,245));//按键上的字的颜色
-			 endTask.setBackground(new Color(	51,153,204));//按键背景色
+			 endTask.setBackground(new Color(66,139,202));//按键背景色
 		 }
 	}
 
 	public void mouseExited(MouseEvent e) {
 		 if("endTask".equals(e.getComponent().getName())){
 			 endTask.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
-			 endTask.setForeground(new Color(	51,153,204));
+			 endTask.setForeground(new Color(66,139,202));
 			 endTask.setBackground(new Color(245,245,245));
-
 		 }
 
 	}

@@ -12,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;  
   
 public class Server {  
-    public static final int PORT = 12345;//监听的端口号     
+    public static final int PORT = 8888;//监听的端口号     
       
     public static void main(String[] args) {    
         System.out.println("服务器启动...\n");    

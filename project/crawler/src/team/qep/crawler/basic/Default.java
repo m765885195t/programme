@@ -5,7 +5,6 @@ public class Default {
 	public static int JFrameY=618;
 	public static int JPanelX=1000;
 	public static int JPanelY=568;
-	public static int processNumber=10;
 
 	public static String getImagePath(int k){
 		return "./image/"+k+".jpg";
@@ -15,5 +14,9 @@ public class Default {
 	}
 	public static String[] getTaskViewJColumnNames(){
 		return new String[]{"TaskNumber","url"};
+	}
+	//默认支持的任务集
+	public static String[] getDefaultUrl(){
+		return new String[]{"www.taobao.com","blog.csdn.net"};
 	}
 }
