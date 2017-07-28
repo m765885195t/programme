@@ -1,27 +1,28 @@
 package team.qep.crawler.view;
 
-import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-
-import javax.swing.BorderFactory;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimerTask;
+import java.util.Timer;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import team.qep.crawler.basic.Default;
@@ -32,9 +33,11 @@ import team.qep.crawler.util.Promptinformation;
 public class UI implements MouseListener {
 	private JFrame ctlJFrame = new JFrame();
 	private Myjpanel ctlJPanel = new Myjpanel(Default.getImagePath(1));//主界面
-	private Myjpanel logo = new Myjpanel(Default.getDynamicImagePath(1));//主界面
+	private Myjpanel logo = new Myjpanel(Default.getDynamicImagePath(21));//logo
 	private JButton closeWindow = new JButton("..."); 
-	private JButton zoom = new JButton("..."); //缩放窗口
+	private JButton zoom = new JButton("__"); //缩放窗口
+	private JLabel date = new JLabel();
+	private JLabel time = new JLabel();
 
 	private static Point mousePosition = new Point();// 全局的位置变量，用于表示鼠标在窗口上的位置
 
@@ -42,7 +45,7 @@ public class UI implements MouseListener {
 	private Myjpanel taskJPanel = new Myjpanel(team.qep.crawler.basic.Default.getImagePath(2));//任务面板
 	private JTextArea distributionTask = new JTextArea();//分发任务集
 	private JScrollPane distributionJSPanel = new JScrollPane(distributionTask);
-	private Choice defaultTask = new Choice();//默认任务集
+	private JComboBox defaultTask = new JComboBox(Default.getDefaultUrl());//默认任务集
 	private JButton startTask= new JButton("start");//开始任务
 	private String[][] taskData ;////在运行任务
 	private DefaultTableModel taskModel;
@@ -86,6 +89,9 @@ public class UI implements MouseListener {
 		ctlJPanel.add(monitoringData);
 		ctlJPanel.add(zoom);
 		ctlJPanel.add(closeWindow);
+		ctlJPanel.add(date);
+		ctlJPanel.add(time);
+
 		ctlJPanel.add(logo);
 		ctlJFrame.setContentPane(ctlJPanel);
 		ctlJFrame.setVisible(true);
@@ -99,6 +105,17 @@ public class UI implements MouseListener {
 		Init.initJPanel(logo, "logo", 100,100);
 		Init.initJButton(closeWindow, "closeWindow");
 		Init.initJButton(zoom, "zoom");
+		Init.initJLable(date, "date");
+		Init.initJLable(time, "time");
+		date.setCursor(Cursor.getPredefinedCursor(0));
+	    date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+	    time.setCursor(Cursor.getPredefinedCursor(0));
+	    new Timer().schedule(new TimerTask() {
+            public void run() {       
+                time.setText(new SimpleDateFormat("HH:mm:ss").format(new Date()));   
+            }      
+        },0,1000); 
+	
 		Init.initJLable(taskManagement, "taskManagement");
 		taskManagement.setForeground(Color.red);
 		taskManagement.setFont(new Font("微软雅黑",0,32));
@@ -109,10 +126,10 @@ public class UI implements MouseListener {
 		Init.initJPanel(taskJPanel, "taskJPanel",  Default.JPanelX, Default.JPanelY);
 		Init.initJTextArea(distributionTask, "distributionTask");
 		Init.initJScrollPane(distributionJSPanel, "distributionJSPanel");
-		Init.initChoice(defaultTask, "defaultTask");
+		Init.initJComboBox(defaultTask, "defaultTask");
 		Init.initJButton(startTask, "startTask");
 		Init.initJTable(viewJTable, "viewJTable");
-//		taskData = Task.getRunningTask(5);
+		taskData = Task.getRunningTask(5);
 	    taskModel = new DefaultTableModel(taskData,Default.getTaskViewJColumnNames()){
 			public boolean isCellEditable(int row,int column){ 
 				return false;
@@ -145,6 +162,7 @@ public class UI implements MouseListener {
 		
 		taskManagement.addMouseListener(this);
 		startTask.addMouseListener(this);
+		defaultTask.addMouseListener(this);
 		viewJTable.addMouseListener(this);
 		endTask.addMouseListener(this);
 		monitoringData.addMouseListener(this);
@@ -157,16 +175,16 @@ public class UI implements MouseListener {
 	public void setSize(){
 		zoom.setBounds(940,0, 30, 30);
 		closeWindow.setBounds(970,0, 30, 30);
+		date.setBounds(880,32, 100, 30);
+		time.setBounds(895,60, 100, 30);
+
 		taskManagement.setBounds(200,20, 100, 50);
 		monitoringData.setBounds(700, 20, 100, 50);
 
 		taskJPanel.setLocation(0, 100);
 		distributionJSPanel.setBounds(50, 20, 250, 400);
-		defaultTask.setBounds(30, 430, 300,30);
-		defaultTask.add("Currently supporting task sets");
-		for(String str:Default.getDefaultUrl()){
-			defaultTask.add(str);
-		}
+		defaultTask.setBounds(50, 430, 200,30);
+		
 		startTask.setBounds(50, 470, 200, 30);
 		viewJSPanel.setBounds(550, 20, 400, 350);
 		endTask.setBounds(700, 450, 120,30);
@@ -190,14 +208,17 @@ public class UI implements MouseListener {
 	    	ctlJPanel.updateUI();
 	    }else if("monitoringData".equals(e.getComponent().getName())){
 	    	taskManagement.setForeground(Color.white);
-	    	monitoringData.setForeground(Color.red);
+	    	monitoringData.setForeground(Color.blue);
 	    	ctlJPanel.remove(taskJPanel);
 	    	ctlJPanel.add(dateJPanel);
 	    	ctlJPanel.updateUI();
+	    }else if("defaultTask".equals(e.getComponent().getName())){
+//	    	System.out.println(defaultTask.getSelectedItem().toString());
+	    	
 	    }else if("startTask".equals(e.getComponent().getName())){
 	    	if(!distributionTask.getText().equals("")){
 		    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(taskData));
-	
+		    	System.out.println(startTaskSet.toString()+"ssss");
 		    	if(startTaskSet != null){
 			    	if(Task.beginTask(1,startTaskSet)){
 			    		for(int i=0 ; i<startTaskSet.length ; i++){
@@ -230,7 +251,6 @@ public class UI implements MouseListener {
     			}
     		}
 		}else if("refreshData".equals(e.getComponent().getName())){
-				
 				dateJPanel.remove(lineChart);
 				lineChart = Crawlergraph.createLineChart();
 				dateJPanel.add(lineChart);
@@ -250,7 +270,6 @@ public class UI implements MouseListener {
 		}else if("emptydata".equals(e.getComponent().getName())){
 			if(Promptinformation.confirmPrompt("Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
 				//清空操作
-				
 				Promptinformation.informationprompt("Has been emptied");
 			}
 		
@@ -275,23 +294,59 @@ public class UI implements MouseListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {// 鼠标进入组件时执行的操作 
-		 if("endTask".equals(e.getComponent().getName())){
-			 endTask.setBorder(BorderFactory.createLineBorder(new Color(245,245,245)));//按键边框色
+		if("startTask".equals(e.getComponent().getName())){
+			startTask.setForeground(new Color(245,245,245));//按键上的字的颜色
+			startTask.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("endTask".equals(e.getComponent().getName())){
 			 endTask.setForeground(new Color(245,245,245));//按键上的字的颜色
 			 endTask.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("refreshData".equals(e.getComponent().getName())){
+			 refreshData.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 refreshData.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("browse".equals(e.getComponent().getName())){
+			 browse.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 browse.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("downloadData".equals(e.getComponent().getName())){
+			 downloadData.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 downloadData.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("emptydata".equals(e.getComponent().getName())){
+			 emptydata.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 emptydata.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("zoom".equals(e.getComponent().getName())){
+			 zoom.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 zoom.setBackground(new Color(66,139,202));//按键背景色
+		 }else if("closeWindow".equals(e.getComponent().getName())){
+			 closeWindow.setForeground(new Color(245,245,245));//按键上的字的颜色
+			 closeWindow.setBackground(new Color(66,139,202));//按键背景色
 		 }
 	}
 
-	public void mouseExited(MouseEvent e) {
-		 if("endTask".equals(e.getComponent().getName())){
-			 endTask.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
+	public void mouseExited(MouseEvent e) {//鼠标离开组件时执行的操作 
+		if("startTask".equals(e.getComponent().getName())){
+			startTask.setForeground(new Color(66,139,202));
+			startTask.setBackground(new Color(245,245,245));
+		 }else if("endTask".equals(e.getComponent().getName())){
 			 endTask.setForeground(new Color(66,139,202));
 			 endTask.setBackground(new Color(245,245,245));
+		 }else if("refreshData".equals(e.getComponent().getName())){
+			 refreshData.setForeground(new Color(66,139,202));
+			 refreshData.setBackground(new Color(245,245,245));
+		 }else if("browse".equals(e.getComponent().getName())){
+			 browse.setForeground(new Color(66,139,202));
+			 browse.setBackground(new Color(245,245,245));
+		 }else if("downloadData".equals(e.getComponent().getName())){
+			 downloadData.setForeground(new Color(66,139,202));
+			 downloadData.setBackground(new Color(245,245,245));
+		 }else if("emptydata".equals(e.getComponent().getName())){
+			 emptydata.setForeground(new Color(66,139,202));
+			 emptydata.setBackground(new Color(245,245,245));
+		 }else if("zoom".equals(e.getComponent().getName())){
+			 zoom.setForeground(new Color(66,139,202));
+			 zoom.setBackground(new Color(245,245,245));
+		 }else if("closeWindow".equals(e.getComponent().getName())){
+			 closeWindow.setForeground(new Color(66,139,202));
+			 closeWindow.setBackground(new Color(245,245,245));
 		 }
 
 	}
-	public static void main(String[] args) {
-		new UI();
-	}
-
 }

@@ -14,6 +14,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -102,10 +103,10 @@ public class Init{
 		jb.setFocusable(false);//消除光标
 //		jb.setContentAreaFilled(false);//按键透明
 //		jb.setIcon(new ImageIcon(""));//设置背景
-//		jb.setBorder(null);//去掉边框
+		jb.setBorder(null);//去掉边框
 		jb.setFont(new Font("微软雅黑",0,20));
 		
-		jb.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
+//		jb.setBorder(BorderFactory.createLineBorder(new Color(51,153,204)));
 		jb.setForeground(new Color(	51,153,204));
 		jb.setBackground(new Color(245,245,245));
 	}
@@ -152,7 +153,7 @@ public class Init{
 
 	}
 
-	public static void initChoice(Choice choice, String str) {
+	public static void initJComboBox(JComboBox choice, String str) {
 		choice.setName(str);
 		choice.setFont(new Font("serif",0,17));
 	//		choice.setBackground(Color.red);

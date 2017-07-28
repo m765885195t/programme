@@ -15,12 +15,8 @@ public class Communication{
 //	private static String IP = "172.18.214.188";
 //	private static String IP = "127.0.0.1";
 //	private static String IP = "192.168.30.170";
-
 	private static int port = 8888;
 	
-	public static void main(String[] args){
-		SendAndRecv("123");
-	}
     public static String SendAndRecv(String str) {
         String recv=null;
         try{   

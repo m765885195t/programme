@@ -18,14 +18,14 @@ public class ConvertJSON {
 	public static String toJSON(int taskNumber,String content){
 		JsonObject json = new JsonObject();
 		json.addProperty("motian", "0");
-		json.addProperty("task",taskNumber);
+		json.addProperty("task",String.valueOf(taskNumber));
 		json.addProperty("content", content);
-		return new String(json.toString());
+		return new String("["+json.toString()+"]");
 	}
-	//json字符转为string[]
+	//json数组字符转为string[]
 	public static String[] toStringArray(String json){
-		 Gson gson = new Gson();  
-		 ArrayList<String> list = new ArrayList<String>();  
+		Gson gson = new Gson();  
+		ArrayList<String> list = new ArrayList<String>();  
         list = gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType());  
         return (String[])list.toArray(new String[list.size()]);
 	}
@@ -33,7 +33,7 @@ public class ConvertJSON {
 		String[] str = toStringArray("[\"motian\",\"0\",\"mt\",\"110\"]");
 
 		for(String s:str){
-			System.out.println(s);
+			System.out.println(str.toString());
 		}
 	}
 }

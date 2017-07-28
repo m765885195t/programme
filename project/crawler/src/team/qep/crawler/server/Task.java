@@ -2,6 +2,7 @@ package team.qep.crawler.server;
 
 import java.util.ArrayList;
 
+import team.qep.crawler.basic.Default;
 import team.qep.crawler.socket.Communication;
 import team.qep.crawler.util.ConvertJSON;
 import team.qep.crawler.util.Operationstring;
@@ -13,8 +14,9 @@ public class Task {
 		String[] str = ConvertJSON.toStringArray(flag);
 		ArrayList<String[]> list = new ArrayList<String[]>();
 		if(str.length!=1){
-			for(int i=0 ; i<str.length ; i++){
-				list.add(new String[]{String.valueOf(i+1),str[i]});
+			for(int i=1 ; i<str.length ; i++){
+				System.out.println(str[i]);
+				list.add(new String[]{String.valueOf(i+1),Default.taskSet[Integer.valueOf(str[i])]});
 			}
 			String[][] A= new String[list.size()][2];
 			for(int i=0 ; i<list.size() ; i++){
@@ -28,8 +30,12 @@ public class Task {
 	}
 	//发布任务集
 	public static boolean beginTask(int taskNumber,String[] taskSet){
-		String string = Operationstring.toLangString(taskSet);
-		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber, string));
+		StringBuilder S = new StringBuilder();
+		for(int i=0 ; i<taskSet.length ; i++){
+			S.append(Operationstring.getIndex(Default.getDefaultUrl(), taskSet[i])+",");
+		}
+		System.out.println(S.toString()+"asdasd");
+		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber, S.toString()));
 		String[] str = ConvertJSON.toStringArray(flag);
 		if(str[1].equals("0")){
 			return false;

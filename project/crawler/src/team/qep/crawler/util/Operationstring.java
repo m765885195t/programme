@@ -23,12 +23,16 @@ public class Operationstring {
 	}
 	//从正在运行的任务中提取url
 	public static String[] extractString(String[][] string){
-		ArrayList<String> strlist = new ArrayList<String>();
-		for(int i=0 ; i<string.length ; i++){
-			strlist.add(string[i][1]);
+		if(string != null){
+			ArrayList<String> strlist = new ArrayList<String>();
+			for(int i=0 ; i<string.length ; i++){
+				strlist.add(string[i][1]);
+			}
+			return (String[])strlist.toArray(new String[strlist.size()]);
+		}else{
+			System.out.println("das");
+			return new String[]{};
 		}
-		
-		return (String[])strlist.toArray(new String[strlist.size()]);
 	}
 	//得到正确的发布任务
 	public static String[] differenceString(String[] string1,String[] string2){
@@ -71,8 +75,5 @@ public class Operationstring {
 			string.append(str[i]+" ");
 		}
 		return string.toString();
-	}
-	//测试代码
-	public static void main(String[] args){
 	}
 }

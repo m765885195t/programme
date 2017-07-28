@@ -5,11 +5,11 @@ import javax.swing.UIManager;
 public class Main {
 	public static void main(String[] args) {
 		try {
-		    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		    UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			new UI();
 		} catch (Exception e) {
 		   e.printStackTrace();
-			}
-		new UI();
+		}
 	}
 
 }
