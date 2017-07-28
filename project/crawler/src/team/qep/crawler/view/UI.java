@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -88,6 +89,8 @@ public class UI implements MouseListener {
 		ctlJPanel.add(logo);
 		ctlJFrame.setContentPane(ctlJPanel);
 		ctlJFrame.setVisible(true);
+		
+	
 	}
 	
 	public void init(){
@@ -109,7 +112,7 @@ public class UI implements MouseListener {
 		Init.initChoice(defaultTask, "defaultTask");
 		Init.initJButton(startTask, "startTask");
 		Init.initJTable(viewJTable, "viewJTable");
-		taskData = Task.getRunningTask(5);
+//		taskData = Task.getRunningTask(5);
 	    taskModel = new DefaultTableModel(taskData,Default.getTaskViewJColumnNames()){
 			public boolean isCellEditable(int row,int column){ 
 				return false;

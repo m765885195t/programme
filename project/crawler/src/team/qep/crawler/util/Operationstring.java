@@ -55,6 +55,15 @@ public class Operationstring {
 		}
 		return false;
 	}
+	//返回该字符串在字符串数组中的下标
+	public static int getIndex(String[] str,String string) {
+		for(int i=0 ; i<str.length ; i++){
+			if(str.equals(string)){
+				return i;
+			}
+		}
+		return -1;
+	}
 	//将字符数组转换为长字符串
 	public static String toLangString(String[] str) {
 		StringBuilder string = new StringBuilder();
