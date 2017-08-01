@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import team.qep.crawler.util.Promptinformation;
+
 public class Communication{
 	private static String IP = "120.77.201.150";
 //	private static String IP = "172.18.214.188";
@@ -18,10 +20,11 @@ public class Communication{
 	private static int port = 8888;
 	
     public static String SendAndRecv(String str) {
-        String recv=null;
+        String recv="[]";
         try{   
         	//1.建立客户端socket连接，指定服务器位置及端口
         	Socket socket =new Socket(IP,port);
+        	socket.setSoTimeout(3000);
         	//2.发送信息
         	OutputStream os=socket.getOutputStream();
         	PrintWriter pw=new PrintWriter(os);
@@ -33,8 +36,9 @@ public class Communication{
         	InputStream is=socket.getInputStream();
         	BufferedReader br=new BufferedReader(new InputStreamReader(is));
         	recv=br.readLine();
-          
-        	
+        	socket.shutdownInput();
+            System.out.println("服务器说:"+recv);
+
         	//关闭资源
         	br.close();
         	is.close();
@@ -44,6 +48,8 @@ public class Communication{
         } catch (UnknownHostException e) {
         	e.printStackTrace();
         } catch (IOException e) {
+        	Promptinformation.errorPrompt(null,"Server connection off!");
+        	System.exit(0);
         	e.printStackTrace();
         }
         return recv;

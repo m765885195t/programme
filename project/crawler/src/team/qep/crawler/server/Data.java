@@ -1,30 +1,59 @@
 package team.qep.crawler.server;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import team.qep.crawler.basic.Default;
+import team.qep.crawler.socket.Communication;
+import team.qep.crawler.socket.Download;
+import team.qep.crawler.util.ConvertJSON;
+import team.qep.crawler.util.Operationstring;
+
 public class Data {
-	//得到数据爬取量生成折线图
-	public static String[][] getDataSet(){
-		return new String[][]{{"0","E-Commerce","13:00"},
-							   {"0","News","13:00"},
-							   {"0","Blog","13:00"},
-							   {"10","E-Commerce","14:00"},
-							   {"20","News","14:00"},
-							   {"15","Blog","14:00"},
-							   {"20","E-Commerce","15:00"},
-							   {"19","News","15:00"},
-							   {"10","Blog","15:00"},
-							   {"40","E-Commerce","16:00"},
-							   {"50","News","16:00"},
-							   {"60","Blog","16:00"},
-							   {"67","E-Commerce","17:00"},
-							   {"69","News","17:00"},
-							   {"80","Blog","17:00"},
-							   {"70","E-Commerce","18:00"},
-							   {"80","News","18:00"},
-							   {"90","Blog","18:00"},
-							   {"100","E-Commerce","19:00"},
-							   {"120","News","19:00"},
-							   {"100","Blog","19:00"},
-		                    };
+	//刷新数据  得到数据爬取量生成折线图
+	public static String[][] refreshData(int taskNumber){
+		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
+		String[] str = ConvertJSON.toStringArray(flag);
 		
+//		ArrayList<String[]> list = new ArrayList<String[]>();
+//		for(int i=1 ; i<str.length; i+=4){
+//			list.add(new String[]{str[i+1],"E-Commerce",str[i]});
+//			list.add(new String[]{str[i+2],"News",str[i]});
+//			list.add(new String[]{str[i+3],"Blog",str[i]});
+//		}
+		
+		Random a = new Random();
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		for(int i=0 ; i<9; i++){
+			list.add(new String[]{String.valueOf(i*a.nextInt()),"E-Commerce","07/18 "+String.valueOf(i*2+10)+":00"});
+			list.add(new String[]{String.valueOf(i*a.nextInt()),"News","07/18 "+String.valueOf(i*2+10)+":00"});
+			list.add(new String[]{String.valueOf(i*a.nextInt()),"Blog","07/18 "+String.valueOf(i*2+10)+":00"});
+		}
+		
+		String[][] A = new String[list.size()][3];
+		for(int i=0 ; i<list.size() ; i++){
+			for(int j=0 ; j<3 ; j++){
+				A[i][j] = list.get(i)[j];
+			}
+		}
+		return A;
+	}
+	
+	//清空数据
+	public static boolean emptyData(int taskNumber){
+		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
+		String[] str = ConvertJSON.toStringArray(flag);
+		if(str[1].equals("0")){
+			return false;
+		}
+		return true;
+	}
+	
+	//下载数据
+	public static boolean downloadData(int taskNumber,String pathName){
+		if(Download.download(ConvertJSON.toJSON(taskNumber,""),pathName)){
+			return true;
+		}
+		return false;
 	}
 }

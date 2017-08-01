@@ -1,16 +1,10 @@
 package team.qep.crawler.util;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
-import team.qep.crawler.basic.recvFlag;
 
 //数据转换为JSON
 public class ConvertJSON {
@@ -20,7 +14,9 @@ public class ConvertJSON {
 		json.addProperty("motian", "0");
 		json.addProperty("task",String.valueOf(taskNumber));
 		json.addProperty("content", content);
-		return new String("["+json.toString()+"]");
+		return "["+json.toString()+"]";
+
+//		return "["+Operationstring.deleteLastChar(Operationstring.deleteLastChar(json.toString(),'"'),'"')+"]";
 	}
 	//json数组字符转为string[]
 	public static String[] toStringArray(String json){
@@ -30,10 +26,10 @@ public class ConvertJSON {
         return (String[])list.toArray(new String[list.size()]);
 	}
 	public static void main(String[] args){
-		String[] str = toStringArray("[\"motian\",\"0\",\"mt\",\"110\"]");
-
-		for(String s:str){
-			System.out.println(str.toString());
+		String[] list = toStringArray("[\"1\", \"1\"]");
+		for(String str:list){
+			System.out.println(str);
 		}
+		System.out.println(toJSON(3,"1,2,3,3"));
 	}
 }

@@ -95,22 +95,17 @@ public class Crawlergraph {
 	        numberaxis.setLabelFont(new Font("sans-serif",1, 13));  
 	        numberaxis.setTickLabelFont(new Font("sans-serif", 1, 13));  
 	        numberaxis.setUpperMargin(0.1);//设置最高数据显示与顶端的距离
-
-
 	    }  
 	      
 	   //得到数据集 
 	    private static DefaultCategoryDataset getDataSet() {  
 	        DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();  
-	        String[][] dataSet = Data.getDataSet();
+	        String[][] dataSet = Data.refreshData(18);
             for(int i=0 ; i<dataSet.length ; i++){
                 defaultcategorydataset.addValue(Integer.valueOf(dataSet[i][0]), dataSet[i][1], dataSet[i][2]);  
             }  
 	        return defaultcategorydataset;  
-//	    	return null;
 	    }  
-	 
-	 
 	 
 	 
 	 

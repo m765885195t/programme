@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -26,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import team.qep.crawler.basic.Default;
+import team.qep.crawler.server.Data;
 import team.qep.crawler.server.Task;
 import team.qep.crawler.util.Operationstring;
 import team.qep.crawler.util.Promptinformation;
@@ -218,36 +220,36 @@ public class UI implements MouseListener {
 	    }else if("startTask".equals(e.getComponent().getName())){
 	    	if(!distributionTask.getText().equals("")){
 		    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(taskData));
-		    	System.out.println(startTaskSet.toString()+"ssss");
-		    	if(startTaskSet != null){
+		    	if(startTaskSet.length != 0){
 			    	if(Task.beginTask(1,startTaskSet)){
 			    		for(int i=0 ; i<startTaskSet.length ; i++){
-			    			System.out.println("正确的任务:"+startTaskSet[i]);
-				    		int taskNumber = Integer.valueOf(String.valueOf(viewJTable.getValueAt(viewJTable.getRowCount()-1,0)))+1;
+			    			System.out.println("正确的任务:"+startTaskSet[i]+viewJTable.getRowCount());
+			    			
+				    		int taskNumber = Integer.valueOf(viewJTable.getRowCount())+1;
 			    			taskModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
 			    		}
-			    		Promptinformation.informationprompt("Successful submission has been done automatically with duplicate tasks and unsupported tasks.");
+			    		Promptinformation.informationprompt(ctlJFrame,"Successful submission has been done automatically with duplicate tasks and unsupported tasks.");
 			    		distributionTask.setText("");
 			    	}else{
-			    		Promptinformation.errorPrompt("The task submission failed. Check network connections!");
+			    		Promptinformation.errorPrompt(ctlJFrame,"The task submission failed. Check network connections!");
 			    	}
 		    	}else{
-		    		Promptinformation.informationprompt("Please enter the correct url with the currently supported url");
+		    		Promptinformation.informationprompt(ctlJFrame,"Please enter the correct url with the currently supported url");
 		    	}
 	    	}else{
-	    		Promptinformation.errorPrompt("Task set is empty, please check!!!");
+	    		Promptinformation.errorPrompt(ctlJFrame,"Task set is empty, please check!!!");
 	    	}
 		}else if("endTask".equals(e.getComponent().getName())){
-    		if(Promptinformation.confirmPrompt("Confirm termination task?")==0){
+    		if(Promptinformation.confirmPrompt(ctlJFrame,"Confirm termination task?")==0){
     			int selectedRow = viewJTable.getSelectedRow(); // 获得选中行索引
     			if(selectedRow!=-1){
     				System.out.println("选中的是:"+viewJTable.getValueAt(selectedRow, 1).toString());
-    				if(Task.endTask(15,viewJTable.getValueAt(selectedRow, 1).toString())){
+    				if(Task.endTask(8,viewJTable.getValueAt(selectedRow, 1).toString())){
     					taskModel.removeRow(selectedRow); // 删除行
-    		    		Promptinformation.informationprompt("successfully deleted");
+    		    		Promptinformation.informationprompt(ctlJFrame,"successfully deleted");
     				}
     			}else{
-		    		Promptinformation.informationprompt("Please select a task");
+		    		Promptinformation.informationprompt(ctlJFrame,"Please select a task");
     			}
     		}
 		}else if("refreshData".equals(e.getComponent().getName())){
@@ -265,19 +267,35 @@ public class UI implements MouseListener {
 		     }
 		}else if("downloadData".equals(e.getComponent().getName())){
 	    	if(savePath.getText().equals("")){
-	    		Promptinformation.informationprompt("Please select the save path");
+	    		Promptinformation.informationprompt(ctlJFrame,"Please select the save path");
+	    	}else{
+	    		Promptinformation.informationprompt(ctlJFrame,"Background download starts");
+	    		new Thread(){
+	    			public void run() {
+	    	    		if(Data.downloadData(22,savePath.getText())){
+	    	    		   try {
+	    	    			   Thread.sleep(5000);
+	    	    		   } catch (InterruptedException e) {
+	    	    			   e.printStackTrace();
+	    	    		   }
+	    	    		   Promptinformation.informationprompt(ctlJFrame,"Download completed");
+	    	    		}else{
+		    	    		   Promptinformation.informationprompt(ctlJFrame,"download failed");
+	    	    		}
+					}
+	    		}.start();
 	    	}
 		}else if("emptydata".equals(e.getComponent().getName())){
-			if(Promptinformation.confirmPrompt("Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
-				//清空操作
-				Promptinformation.informationprompt("Has been emptied");
+			if(Promptinformation.confirmPrompt(ctlJFrame,"Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
+				if(Data.emptyData(21)){
+					Promptinformation.informationprompt(ctlJFrame,"Has been emptied");
+				}else{
+					//清空失败操作  网络异常
+				}
 			}
-		
-		} else if("closeWindow".equals(e.getComponent().getName())){
-	    	System.exit(0);//退出程序
-		} else if("zoom".equals(e.getComponent().getName())){
+		}else if("zoom".equals(e.getComponent().getName())){
 			ctlJFrame.setExtendedState(JFrame.ICONIFIED);
-		} else if("closeWindow".equals(e.getComponent().getName())){
+		}else if("closeWindow".equals(e.getComponent().getName())){
 	    	System.exit(0);//退出程序
 		} 
 	}
