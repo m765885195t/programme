@@ -6,11 +6,20 @@
  ************************************************************************/
 
 #include<iostream>
-
+#include"class.h"
 using namespace std;
 
-int prin(void){
-    cout<<"das"<<endl;
+int main(void){
+    A a;
+    int b=3;
+    int *p=&b;
+    cout<<a.get_Username()<<endl;
+    cout<<p<<endl;
+    a.set_Username(p+1,2);
+    cout<<a.get_Username()<<endl;
+    cout<<p<<endl;
+    cout<<a.c<<endl;
+    
     return 0;
 }
 
