@@ -23,14 +23,13 @@ public class Task {
 //			}
 //		}
 //		return A;
-		
-		return new String[][]{{"0","www.taobao.com"},
-			{"0","www.taobao.com"},{"0","www.taobao.com"},{"0","www.taobao.com"},{"0","www.taobao.com"},{"0","www.taobao.com"},
-								{"1","blog.csdn.net"}};
+		System.out.println("1");
+//		return new String[][]{{"1","blog.csdn.net"}};
+		return new String[][]{};
 	}
 	//发布任务集
 	public static boolean beginTask(int taskNumber,String[] taskSet){
-
+		System.out.println("2");
 		StringBuilder S = new StringBuilder();
 		for(int i=0 ; i<taskSet.length ; i++){
 			S.append(Operationstring.getIndex(Default.getDefaultUrl(), taskSet[i])+",");
@@ -46,6 +45,8 @@ public class Task {
 	
 	//终止任务
 	public static boolean endTask(int taskNumber,String string){
+		System.out.println("3");
+
 		System.out.println(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string)))+"转换后的终止任务");
 
 		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string))));
@@ -56,6 +57,8 @@ public class Task {
 		return true;
 	}
 	public static void main(String[] args){
+		System.out.println("4");
+
 		endTask(15,"www.taobao.com");
 	}
 }

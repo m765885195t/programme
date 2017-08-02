@@ -107,8 +107,8 @@ public class UI implements MouseListener {
 		Init.initJPanel(logo, "logo", 100,100);
 		Init.initJButton(closeWindow, "closeWindow");
 		Init.initJButton(zoom, "zoom");
-		Init.initJLable(date, "date");
-		Init.initJLable(time, "time");
+		Init.initJLable(date, "date",null);
+		Init.initJLable(time, "time",null);
 		date.setCursor(Cursor.getPredefinedCursor(0));
 	    date.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 	    time.setCursor(Cursor.getPredefinedCursor(0));
@@ -118,10 +118,10 @@ public class UI implements MouseListener {
             }      
         },0,1000); 
 	
-		Init.initJLable(taskManagement, "taskManagement");
+		Init.initJLable(taskManagement, "taskManagement",null);
 		taskManagement.setForeground(Color.red);
 		taskManagement.setFont(new Font("微软雅黑",0,32));
-		Init.initJLable(monitoringData, "monitoringData");
+		Init.initJLable(monitoringData, "monitoringData",null);
 		monitoringData.setForeground(Color.white);
 		monitoringData.setFont(new Font("微软雅黑",0,32));
 
@@ -132,6 +132,7 @@ public class UI implements MouseListener {
 		Init.initJButton(startTask, "startTask");
 		Init.initJTable(viewJTable, "viewJTable");
 		taskData = Task.getRunningTask(5);
+
 	    taskModel = new DefaultTableModel(taskData,Default.getTaskViewJColumnNames()){
 			public boolean isCellEditable(int row,int column){ 
 				return false;
@@ -177,8 +178,8 @@ public class UI implements MouseListener {
 	public void setSize(){
 		zoom.setBounds(940,0, 30, 30);
 		closeWindow.setBounds(970,0, 30, 30);
-		date.setBounds(880,32, 100, 30);
-		time.setBounds(895,60, 100, 30);
+		date.setBounds(880,32, 120, 30);
+		time.setBounds(892,60, 120, 30);
 
 		taskManagement.setBounds(200,20, 100, 50);
 		monitoringData.setBounds(700, 20, 100, 50);

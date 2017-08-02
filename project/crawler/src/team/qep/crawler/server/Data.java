@@ -12,8 +12,8 @@ import team.qep.crawler.util.Operationstring;
 public class Data {
 	//刷新数据  得到数据爬取量生成折线图
 	public static String[][] refreshData(int taskNumber){
-		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
-		String[] str = ConvertJSON.toStringArray(flag);
+//		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
+//		String[] str = ConvertJSON.toStringArray(flag);
 		
 //		ArrayList<String[]> list = new ArrayList<String[]>();
 //		for(int i=1 ; i<str.length; i+=4){

@@ -30,11 +30,10 @@ public class Crawlergraph {
 	 public static JPanel createLineChart() {  
 	        return new ChartPanel(getJFreeChart());  
 	    }
-	 private static JFreeChart getJFreeChart() {
+	  static JFreeChart getJFreeChart() {
 		   JFreeChart jfreechart=null;  
-	      
 		   // JFreeChart对象 参数：标题，目录轴显示标签，数值轴显示标签，数据集，是否显示图例，是否生成工具，是否生成URL连接  
-		   jfreechart = ChartFactory.createLineChart("rate of progress", "", "Downloads", getDataSet(), PlotOrientation.VERTICAL, true, true, false);  
+		   jfreechart = ChartFactory.createLineChart("Total Crawl Progress", "", "", getDataSet(), PlotOrientation.VERTICAL, true, true, false);  
 //	      jfreechart = ChartFactory.createLineChart3D("", "X轴", "Y轴",getDataSet(), PlotOrientation.VERTICAL, true, true, false);  
 
 //		    jfreechart.setBorderVisible(true);// 边框可见  
@@ -106,24 +105,19 @@ public class Crawlergraph {
             }  
 	        return defaultcategorydataset;  
 	    }  
-	 
-	 
-	 
-	 
-	 
 	//保存为图片
-	 public static void savePicture(JFreeChart jfreechart){
-		 try {  
-	           ChartUtilities.saveChartAsJPEG(  
-	                    new File("D:/LineChartDemo1.png"),//路径和文件名   
-	                 //    1.0f,    //图片质量 ，0.0f~1.0f  
-	                     jfreechart, //图表对象   
-	                    1024,   //图像宽度 ，这个将决定图表的横坐标值是否能完全显示还是显示省略号  
-	                    768);  
-	        }catch (IOException e) {  
-	            e.printStackTrace();  
-	       }
+	public static boolean savePicture(JFreeChart jfreechart){
+		File file = new File(".image/schedule/schedule.png");
+		if (!file.exists()) {//文件不存在则创建
+			try {  
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+				ChartUtilities.saveChartAsJPEG(file,jfreechart,1024,768);  //    1.0f,    //图片质量 ，0.0f~1.0f  
+		    }catch (IOException e) {  
+		        e.printStackTrace();  
+		        return false;
+		    }
+		}
+		return true;
 	 }
-
-	  
 }

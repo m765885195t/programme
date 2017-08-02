@@ -48,8 +48,9 @@ public class Communication{
         } catch (UnknownHostException e) {
         	e.printStackTrace();
         } catch (IOException e) {
+        	recv = new String("[\"1\",\"0 or 1\"]");
         	Promptinformation.errorPrompt(null,"Server connection off!");
-        	System.exit(0);
+//        	System.exit(0);
         	e.printStackTrace();
         }
         return recv;

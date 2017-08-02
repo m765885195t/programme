@@ -32,9 +32,8 @@ public class Download {
 	        	//接受信息
 	        	InputStream is=socket.getInputStream();
 	        	BufferedReader br=new BufferedReader(new InputStreamReader(is));
-	        	recv=br.readLine();
+//	        	recv=br.readLine();
 	        	socket.shutdownInput();
-	            System.out.println("服务器说:"+recv);
 	            
 	            
 	            
@@ -45,29 +44,29 @@ public class Download {
 	            int passedlen = 0;  
 	            long len = 0;  
 	  
-	            savePath += inputStream.readUTF();  
-	            DataOutputStream fileOut = new DataOutputStream(  
-	                    new BufferedOutputStream(new FileOutputStream(savePath)));  
-	            len = inputStream.readLong();  
+//	            savePath += inputStream.readUTF();  
+//	            DataOutputStream fileOut = new DataOutputStream(  
+//	                    new BufferedOutputStream(new FileOutputStream(savePath)));  
+//	            len = inputStream.readLong();  
 	  
 	            System.out.println("文件的长度为:" + len + "\n");  
 	            System.out.println("开始接收文件!" + "\n");  
 	  
-	            while (true) {  
-	                int read = 0;  
-	                if (inputStream != null) {  
-	                    read = inputStream.read(buf);  
-	                }  
-	                passedlen += read;  
-	                if (read == -1) {  
-	                    break;  
-	                }  
-	                System.out.println("文件接收了" + (passedlen * 100 / len) + "%\n");  
-	                fileOut.write(buf, 0, read);  
-	            }  
-	            System.out.println("接收完成，文件存为" + savePath + "\n");  
+//	            while (true) {  
+//	                int read = 0;  
+//	                if (inputStream != null) {  
+//	                    read = inputStream.read(buf);  
+//	                }  
+//	                passedlen += read;  
+//	                if (read == -1) {  
+//	                    break;  
+//	                }  
+//	                System.out.println("文件接收了" + (passedlen * 100 / len) + "%\n");  
+//	                fileOut.write(buf, 0, read);  
+//	            }  
+//	            System.out.println("接收完成，文件存为" + savePath + "\n");  
 	  
-	            fileOut.close();  
+//	            fileOut.close();  
 	            
 	          //关闭资源
 	        	br.close();
@@ -82,5 +81,6 @@ public class Download {
 	        	System.exit(0);
 	        	e.printStackTrace();
 	        }
+			return false;
 	 }
 }

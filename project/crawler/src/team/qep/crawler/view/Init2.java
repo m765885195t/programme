@@ -37,9 +37,9 @@ import javax.swing.table.TableRowSorter;
 
 //所有UI界面的默认初始化
 
-public class Init{
+public class Init2{
 	//---------窗口的初始化方式
-	public static void initJFrame(JFrame jf,String str,int x,int y){//主窗口,窗口名,窗口大小
+	public static void Init2JFrame(JFrame jf,String str,int x,int y){//主窗口,窗口名,窗口大小
 		 jf.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
 		jf.setLayout(null);//清除布局方式
 //		jf.setResizable(false);//不可改变大小
@@ -52,7 +52,7 @@ public class Init{
 //		jf.setVisible(true);//窗口可见
 
 	}
-	public static void initJDialog(JDialog jd,String str,int x,int y){//主窗口,窗口名,窗口大小
+	public static void Init2JDialog(JDialog jd,String str,int x,int y){//主窗口,窗口名,窗口大小
 		jd.setLayout(null);//清除布局方式
 //		jf.setResizable(false);//不可改变大小
 		jd.setSize(x, y);
@@ -65,7 +65,7 @@ public class Init{
 	}
 
 	//文本域初始化
-	public static void initJTextArea (JTextArea in,String str){
+	public static void Init2JTextArea (JTextArea in,String str){
 //		in.setOpaque(false);//设为透明
 		in.setFont(new Font("serif",1,20));//设置字体格式
 		in.setName(str);//设置文本域的名字
@@ -76,7 +76,7 @@ public class Init{
 
 	}
 	//---------文本框的初始化
-	public static void initJTextField(JTextField username,String str){
+	public static void Init2JTextField(JTextField username,String str){
 //		username.setOpaque(false);//设为透明
 //		username.setBorder(null);//去掉边框
 		username.setFont(new Font("微软雅黑",0, 17));//设置字体格式
@@ -90,20 +90,18 @@ public class Init{
 	}
 
 	//标签初始化
-	public static void initJLable(JLabel jl,String str,String icon){
+	public static void Init2JLable(JLabel jl,String str){
 		jl.setName(str);//设置文本框的名字
 //		jl.setFont(new Font("serif",0,20));
 		jl.setFont(new Font("微软雅黑",0,20));
-		jl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//进入框为手
-		jl.setIcon(new ImageIcon(icon));  
+//		jl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));//进入框为手
 		jl.setForeground(Color.white);
 	}
 	//---------按键初始化
-	public static void initJButton(JButton jb,String str){
+	public static void Init2JButton(JButton jb,String str){
 		jb.setName(str);	
 		jb.setFocusable(false);//消除光标
 //		jb.setContentAreaFilled(false);//按键透明
-//		jb.setIcon(new ImageIcon(""));//设置背景
 		jb.setBorder(null);//去掉边框
 		jb.setFont(new Font("微软雅黑",0,20));
 		
@@ -114,15 +112,13 @@ public class Init{
 
 	}
 	//---------面板初始化
-	public static void initJPanel(JPanel jp,String str,int size_X,int size_Y){
+	public static void Init2JPanel(JPanel jp,String str){
 //		jp.setOpaque(false);//设置面板透明
 		jp.setName(str);//设置面板名
-		jp.setSize(size_X,size_Y);
-
 		jp.setLayout(null);//清楚面板的布局方式
 	}
 	//---------滚动面板初始化
-	public static void initJScrollPane(JScrollPane jsp,String str){
+	public static void Init2JScrollPane(JScrollPane jsp,String str){
 		jsp.setOpaque(false);//设置面板透明
 		jsp.getViewport().setOpaque(false);//组件透明
 		jsp.setName(str);//设置面板名
@@ -130,7 +126,7 @@ public class Init{
 //		jsp.setLayout(null);//清楚面板的布局方式
 	}
 	//---------表格初始化
-	public static void initJTable(JTable jt,String str){
+	public static void Init2JTable(JTable jt,String str){
 		jt.setName(str);
 		jt.setFont(new Font("serif",0,18));//设置字体
 		DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();// 设置table内容居中
@@ -156,12 +152,12 @@ public class Init{
 
 	}
 
-	public static void initJComboBox(JComboBox choice, String str) {
+	public static void Init2JComboBox(JComboBox choice, String str) {
 		choice.setName(str);
 		choice.setFont(new Font("serif",0,17));
 	//		choice.setBackground(Color.red);
 	}
-	public static void initJFileChooser(JFileChooser JFileChooser, String str) {
+	public static void Init2JFileChooser(JFileChooser JFileChooser, String str) {
 		JFileChooser.setName(str);
 	}
 }

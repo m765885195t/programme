@@ -76,4 +76,12 @@ public class Operationstring {
 		}
 		return string.toString();
 	}
+	//一维数组转二维数组
+	public static String[][] toTwoimensional(String[] str) {
+		String[][] string = new String[str.length][1];
+		for(int i=0 ; i<str.length ; i++){
+			string[i][0] = str[i];
+		}
+		return string;
+	}
 }
