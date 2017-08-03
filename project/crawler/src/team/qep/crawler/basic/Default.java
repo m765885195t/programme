@@ -5,7 +5,17 @@ public class Default {
 	public static int JFrameY=618;
 	public static int JPanelX=1000;
 	public static int JPanelY=568;
-	public static String[] taskSet = new String[]{"www.taobao.com","blog.csdn.net","1","2","3"};
+	public static int refreshrate=1000;
+	public static int EC_News=1;
+	public static int News_Blog=2;
+	public static String[] taskSet = new String[]{"www.taobao.com","blog.csdn.net"};
+	
+	public static void setRefreshrate(int refresh){
+		refreshrate=refresh;
+	}
+	public static int getRefreshrate(){
+		return refreshrate;
+	}
 	public static String getImagePath(int k){
 		return "./image/"+k+".jpg";
 	}
@@ -16,7 +26,7 @@ public class Default {
 		return "./image/"+path+".png";
 	}
 	public static String[] getTaskViewJColumnNames(){
-		return new String[]{"Task","Url"};
+		return new String[]{"Task","Url","Status"};
 	}
 	//默认支持的任务集
 	public static String[] getDefaultUrl(){

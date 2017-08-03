@@ -273,7 +273,7 @@ public class UI implements MouseListener {
 	    		Promptinformation.informationprompt(ctlJFrame,"Background download starts");
 	    		new Thread(){
 	    			public void run() {
-	    	    		if(Data.downloadData(22,savePath.getText())){
+	    	    		if(Data.downloadData(22,0,savePath.getText())){
 	    	    		   try {
 	    	    			   Thread.sleep(5000);
 	    	    		   } catch (InterruptedException e) {

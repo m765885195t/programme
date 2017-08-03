@@ -3,6 +3,7 @@ package team.qep.crawler.view;
 
 import java.awt.Choice;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,15 +21,19 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
@@ -151,14 +156,21 @@ public class Init2{
 	    jt.setIntercellSpacing(new Dimension(0, 0));   
 
 	}
-
+	
 	public static void Init2JComboBox(JComboBox choice, String str) {
 		choice.setName(str);
 		choice.setFont(new Font("serif",0,17));
+
 	//		choice.setBackground(Color.red);
 	}
 	public static void Init2JFileChooser(JFileChooser JFileChooser, String str) {
 		JFileChooser.setName(str);
 	}
+	//进度条初始化
+	public static void Init2JProgressBar(JProgressBar jpb,String str){
+//		jp.setOpaque(false);
+		jpb.setName(str);
+		jpb.setStringPainted(true);// 设置进度条上的字符串显示，false则不能显示  
+		jpb.setVisible(true);
+	}
 }
-	

@@ -77,8 +77,8 @@ public class Download {
 	        } catch (UnknownHostException e) {
 	        	e.printStackTrace();
 	        } catch (IOException e) {
-//	        	Promptinformation.errorPrompt(null,9"Server connection off!");
-	        	System.exit(0);
+	        	Promptinformation.errorPrompt(null,"Server connection off!");
+//	        	System.exit(0);
 	        	e.printStackTrace();
 	        }
 			return false;

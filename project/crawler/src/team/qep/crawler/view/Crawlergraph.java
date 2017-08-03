@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -107,12 +109,12 @@ public class Crawlergraph {
 	    }  
 	//保存为图片
 	public static boolean savePicture(JFreeChart jfreechart){
-		File file = new File(".image/schedule/schedule.png");
+		File file = new File("./schedule/"+new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+".jpg");
 		if (!file.exists()) {//文件不存在则创建
 			try {  
 				file.getParentFile().mkdirs();
 				file.createNewFile();
-				ChartUtilities.saveChartAsJPEG(file,jfreechart,1024,768);  //    1.0f,    //图片质量 ，0.0f~1.0f  
+				ChartUtilities.saveChartAsJPEG(file,1.0f,jfreechart,1200,600);  //    1.0f,    //图片质量 ，0.0f~1.0f  
 		    }catch (IOException e) {  
 		        e.printStackTrace();  
 		        return false;
