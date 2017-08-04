@@ -8,8 +8,7 @@ public class Default {
 	public static int refreshrate=1000;
 	public static int EC_News=1;
 	public static int News_Blog=2;
-	public static String[] taskSet = new String[]{"www.taobao.com","blog.csdn.net"};
-	
+	public static String[] taskSet = new String[]{"www.taobao.com","blog.csdn.net","1","2","3","4"};
 	public static void setRefreshrate(int refresh){
 		refreshrate=refresh;
 	}
@@ -26,7 +25,7 @@ public class Default {
 		return "./image/"+path+".png";
 	}
 	public static String[] getTaskViewJColumnNames(){
-		return new String[]{"Task","Url","Status"};
+		return new String[]{"Url","Status"};
 	}
 	//默认支持的任务集
 	public static String[] getDefaultUrl(){

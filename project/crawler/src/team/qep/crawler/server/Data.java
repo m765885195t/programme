@@ -40,12 +40,12 @@ public class Data {
 	}
 	
 	//清空数据
-	public static boolean emptyData(int taskNumber){
-		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
-		String[] str = ConvertJSON.toStringArray(flag);
-		if(str[1].equals("0")){
-			return false;
-		}
+	public static boolean emptyData(int taskNumber,int urlstart,int urlend){//url起止范围
+//		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,""));
+//		String[] str = ConvertJSON.toStringArray(flag);
+//		if(str[1].equals("0")){
+//			return false;
+//		}
 		return true;
 	}
 	

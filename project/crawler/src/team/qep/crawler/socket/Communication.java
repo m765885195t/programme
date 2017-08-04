@@ -1,7 +1,6 @@
 package team.qep.crawler.socket;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,12 +9,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import team.qep.crawler.util.Promptinformation;
-
 public class Communication{
-	private static String IP = "120.77.201.150";
+//	private static String IP = "120.77.201.150";
 //	private static String IP = "172.18.214.188";
-//	private static String IP = "127.0.0.1";
+	private static String IP = "127.0.0.1";
 //	private static String IP = "192.168.30.170";
 	private static int port = 8888;
 	
@@ -49,10 +46,13 @@ public class Communication{
         	e.printStackTrace();
         } catch (IOException e) {
 //        	recv = new String("[\"1\",\"0 or 1\"]");
-        	Promptinformation.errorPrompt(null,"Server connection off!");
+
+//        	Promptinformation.errorPrompt(null,"Server connection off!");
 //        	System.exit(0);
         	e.printStackTrace();
         }
+//        recv="[\"5\",1,1,2,2]";
+        recv="[\"5\"]";
         return recv;
     }
 }

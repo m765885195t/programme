@@ -288,7 +288,7 @@ public class UI implements MouseListener {
 	    	}
 		}else if("emptydata".equals(e.getComponent().getName())){
 			if(Promptinformation.confirmPrompt(ctlJFrame,"Are you sure you want to empty the downloaded data, which is irrevocable?")==0){
-				if(Data.emptyData(21)){
+				if(Data.emptyData(21,0,1)){
 					Promptinformation.informationprompt(ctlJFrame,"Has been emptied");
 				}else{
 					//清空失败操作  网络异常

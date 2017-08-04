@@ -102,9 +102,10 @@ public class UI2 implements MouseListener {
 
 	private Myjpanel deletePanel = new Myjpanel("");
 	private JButton emptydata= new JButton();//清空数据
+	private JButton emptyLog= new JButton();//清空下载日志
 
-	
 	private Myjpanel helpPanel = new Myjpanel("");
+	
 	private Myjpanel settingPanel = new Myjpanel("");
 	private JButton saveSetting = new JButton("");
 
@@ -150,6 +151,9 @@ public class UI2 implements MouseListener {
 		downloadPanel.add(cancelDownloadData);
 		
 		deletePanel.add(emptydata);
+		deletePanel.add(emptyLog);
+	
+
 //		helpPanel.add(downloadData);
 	
 		settingPanel.add(saveSetting);
@@ -257,6 +261,56 @@ public class UI2 implements MouseListener {
 		selectDownload.addItem("E-Commerce");
 		selectDownload.addItem("News");
 		selectDownload.addItem("Blog");
+		Init2.Init2JComboBox(detailed, "detailed");
+		detailed.addItem("ALL");
+		String[] url=Default.taskSet;
+		for(String str:url){
+			detailed.addItem(str);
+		}
+	
+		Init2.Init2JTextField(savePath, "savePath");
+
+		Init2.Init2JPanel(deletePanel, "deletePanel");
+		Init2.Init2JButton(emptydata, "emptydata");
+		Init2.Init2JButton(emptyLog, "emptyLog");
+
+		Init2.Init2JPanel(helpPanel, "helpPanel");
+		
+		Init2.Init2JPanel(settingPanel, "settingPanel");
+		Init2.Init2JButton(saveSetting, "saveSetting");
+
+		
+	}
+	private void listener(){
+		ctlJFrame.addMouseListener(this);
+		ctlJFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			// 拖动（mouseDragged 指的不是鼠标在窗口中移动，而是用鼠标拖动）
+			public void mouseDragged(MouseEvent e) {
+				Point tem = ctlJFrame.getLocation();
+				ctlJFrame.setLocation(tem.x + e.getX() - mousePosition.x, tem.y + e.getY()- mousePosition.y);
+			}
+		});
+		zoom.addMouseListener(this);
+		closeWindow.addMouseListener(this);
+		task.addMouseListener(this);
+		log.addMouseListener(this);
+		download.addMouseListener(this);
+		help.addMouseListener(this);
+		setting.addMouseListener(this);
+		delete.addMouseListener(this);
+		
+		release.addMouseListener(this);
+		startTask.addMouseListener(this);
+		supportedJTable.addMouseListener(this);
+		runJTable.addMouseListener(this);
+		endTask.addMouseListener(this);
+
+		refreshData.addMouseListener(this);
+		picture.addMouseListener(this);
+		
+		browse.addMouseListener(this);
+		downloadData.addMouseListener(this);
+		cancelDownloadData.addMouseListener(this);
 		//监听选中
 		selectDownload.addItemListener(new ItemListener(){
 			public void itemStateChanged(ItemEvent e){
@@ -291,56 +345,8 @@ public class UI2 implements MouseListener {
 				}
 			}
 		});
-		Init2.Init2JComboBox(detailed, "detailed");
-		detailed.addItem("ALL");
-		String[] url=Default.taskSet;
-		for(String str:url){
-			detailed.addItem(str);
-		}
-	
-		Init2.Init2JTextField(savePath, "savePath");
-
-		Init2.Init2JPanel(deletePanel, "deletePanel");
-		Init2.Init2JButton(emptydata, "emptydata");
-
-		Init2.Init2JPanel(helpPanel, "helpPanel");
-		
-		Init2.Init2JPanel(settingPanel, "settingPanel");
-		Init2.Init2JButton(saveSetting, "saveSetting");
-
-		
-	}
-	private void listener(){
-		ctlJFrame.addMouseListener(this);
-		ctlJFrame.addMouseMotionListener(new MouseMotionAdapter() {
-			// 拖动（mouseDragged 指的不是鼠标在窗口中移动，而是用鼠标拖动）
-			public void mouseDragged(MouseEvent e) {
-				Point tem = ctlJFrame.getLocation();
-				ctlJFrame.setLocation(tem.x + e.getX() - mousePosition.x, tem.y + e.getY()- mousePosition.y);
-			}
-		});
-		zoom.addMouseListener(this);
-		closeWindow.addMouseListener(this);
-		task.addMouseListener(this);
-		log.addMouseListener(this);
-		download.addMouseListener(this);
-		help.addMouseListener(this);
-		setting.addMouseListener(this);
-		delete.addMouseListener(this);
-		
-		release.addMouseListener(this);
-		startTask.addMouseListener(this);
-		runJTable.addMouseListener(this);
-		endTask.addMouseListener(this);
-
-		refreshData.addMouseListener(this);
-		picture.addMouseListener(this);
-		
-		browse.addMouseListener(this);
-		downloadData.addMouseListener(this);
-		cancelDownloadData.addMouseListener(this);
-		
 		emptydata.addMouseListener(this);
+		emptyLog.addMouseListener(this);
 		
 		saveSetting.addMouseListener(this);
 		
@@ -373,6 +379,7 @@ public class UI2 implements MouseListener {
 		endTask.setBackground(new Color(150,150,150));
 		refreshData.setBackground(new Color(150,150,150));
 		emptydata.setBackground(new Color(150,150,150));
+		emptyLog.setBackground(new Color(150,150,150));
 		picture.setBackground(new Color(150,150,150));
 		saveSetting.setBackground(new Color(150,150,150));
 		browse.setBackground(new Color(150,150,150));
@@ -393,7 +400,8 @@ public class UI2 implements MouseListener {
 		startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("pause")));//任务icon
 		endTask.setIcon(new ImageIcon(Default.getDynamicIconPath("end")));//任务icon
 		refreshData.setIcon(new ImageIcon(Default.getDynamicIconPath("refresh")));//任务icon
-		emptydata.setIcon(new ImageIcon(Default.getDynamicIconPath("empty")));//任务icon
+		emptydata.setIcon(new ImageIcon(Default.getDynamicIconPath("emptydata")));//任务icon
+		emptyLog.setIcon(new ImageIcon(Default.getDynamicIconPath("emptylog")));//任务icon
 		picture.setIcon(new ImageIcon(Default.getDynamicIconPath("picture")));//任务icon
 		saveSetting.setIcon(new ImageIcon(Default.getDynamicIconPath("savesetting")));//任务icon
 		browse.setIcon(new ImageIcon(Default.getDynamicIconPath("browse")));//任务icon
@@ -440,6 +448,7 @@ public class UI2 implements MouseListener {
 
 			    deletePanel.setBounds(50, 30,Default.JFrameX-50,Default.JFrameY);
 		          emptydata.setBounds(640, 500, 180,  40);
+		          emptyLog.setBounds(440, 500, 180,  40);
 
 		          helpPanel.setBounds(50, 30,Default.JFrameX-50,Default.JFrameY);
 			  
@@ -478,6 +487,12 @@ public class UI2 implements MouseListener {
 	    	ctlJPanel.add(logJPanel);
 	    	ctlJPanel.updateUI();
 	    }else if("download".equals(e.getComponent().getName())){
+	    	downloadPanel.add(selectDownload);
+	    	downloadPanel.add(detailed);
+	    	detailed.setSelectedIndex(0);
+			selectDownload.setSelectedIndex(0);
+	        selectDownload.setBounds(80, 380, 170, 30);
+		    detailed.setBounds(300,380, 170, 30);
 	    	this.setColour();
 	    	download.setContentAreaFilled(true);
 			flag[2]=true;
@@ -492,6 +507,12 @@ public class UI2 implements MouseListener {
 	    	ctlJPanel.add(downloadPanel);
 	    	ctlJPanel.updateUI();
 	    }else if("delete".equals(e.getComponent().getName())){
+	    	deletePanel.add(selectDownload);
+			deletePanel.add(detailed);
+			detailed.setSelectedIndex(0);
+			selectDownload.setSelectedIndex(0);
+		    selectDownload.setBounds(80, 280, 170, 30);
+		    detailed.setBounds(300,280, 170, 30);
 	    	this.setColour();
 	    	delete.setContentAreaFilled(true);
 			flag[5]=true;
@@ -516,6 +537,7 @@ public class UI2 implements MouseListener {
 	    	ctlJPanel.remove(logJPanel);
 	    	ctlJPanel.remove(downloadPanel);
 	    	ctlJPanel.remove(settingPanel);
+	    	ctlJPanel.remove(deletePanel);
 	    	ctlJPanel.add(helpPanel);
 	    	ctlJPanel.updateUI();
 	    }else if("setting".equals(e.getComponent().getName())){
@@ -532,24 +554,35 @@ public class UI2 implements MouseListener {
 	    	ctlJPanel.remove(deletePanel);
 	    	ctlJPanel.add(settingPanel);
 	    	ctlJPanel.updateUI();
-	    }else if("defaultTask".equals(e.getComponent().getName())){
-//	    	System.out.println(defaultTask.getSelectedItem().toString());
-	    	
+	    }else if("supportedJTable".equals(e.getComponent().getName())){
+	    	int selectedRow = supportedJTable.getSelectedRow(); // 获得选中行索引
+			if(selectedRow!=-1){
+				distributionTask.append(supportedJTable.getValueAt(selectedRow, 0).toString()+"\n");
+			}
 	    }else if("release".equals(e.getComponent().getName())){
 	    	if(!distributionTask.getText().equals("")){
-		    	String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(runData));
-		    	System.out.println(startTaskSet);
-		    	if(startTaskSet.length != 0){
+	    		String[] startTaskSet = Operationstring.differenceString(Operationstring.splitString(distributionTask.getText()), Operationstring.extractString(runData));
+	    		
+	    		if(startTaskSet.length != 0){
 			    	if(Task.beginTask(1,startTaskSet)){
-			    		int taskNumber;
-			    		if(runJTable.getRowCount()==0){
-			    			taskNumber =  1;
-			    		}else{
-			    			taskNumber = Integer.valueOf((String) runJTable.getValueAt(runJTable.getRowCount()-1,0))+1;
+			    		String[][] list = new String[runData.length+startTaskSet.length][2];
+			    		int k=0;
+			    		for(int i=0 ; i<runData.length ; i++,k++){
+			    			for(int j=0 ; j<2 ; j++){
+			    				list[k][j] = runData[i][j];
+			    			}
 			    		}
-			    		for(int i=0 ; i<startTaskSet.length ; i++){
-			    			runModel.addRow(new String[]{String.valueOf(taskNumber),startTaskSet[i]});
+			    		for(int i=0 ; i<startTaskSet.length ; i++,k++){
+			    			list[k][0] = startTaskSet[i];
+			    			list[k][1] = "run";
 			    		}
+			    		runData=list;
+			    		runModel = new DefaultTableModel(runData,Default.getTaskViewJColumnNames()){
+			    			public boolean isCellEditable(int row,int column){ 
+			    				return false;
+			    			}  
+			    		};
+			    		runJTable.setModel(runModel);
 			    		Promptinformation.informationprompt(ctlJFrame,"Successful submission has been done automatically with duplicate tasks and unsupported tasks.");
 			    		distributionTask.setText("");
 			    	}else{
@@ -561,18 +594,51 @@ public class UI2 implements MouseListener {
 	    	}else{
 	    		Promptinformation.errorPrompt(ctlJFrame,"Task set is empty, please check!!!");
 	    	}
+		}else if("runJTable".equals(e.getComponent().getName())){
+			int selectedRow = runJTable.getSelectedRow(); // 获得选中行索引
+			if(selectedRow!=-1){
+				if(runJTable.getValueAt(selectedRow, 1).toString().equals("run")){
+					startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("pause")));//任务icon
+				}else if(runJTable.getValueAt(selectedRow, 1).toString().equals("pause")){
+					startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("start")));//任务icon
+				}
+			}
+
 		}else if("startTask".equals(e.getComponent().getName())){
-			//开始暂停任务
-			startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("start")));//任务icon
+			int selectedRow = runJTable.getSelectedRow(); // 获得选中行索引
+			if(selectedRow!=-1){
+				if(runJTable.getValueAt(selectedRow, 1).toString().equals("run")){
+					runJTable.setValueAt("pause",selectedRow,1);
+					startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("start")));//任务icon
+				}else if(runJTable.getValueAt(selectedRow, 1).toString().equals("pause")){
+					runJTable.setValueAt("run", selectedRow,1);
+					startTask.setIcon(new ImageIcon(Default.getDynamicIconPath("pause")));//任务icon
+				}
+			}
 
 		}else if("endTask".equals(e.getComponent().getName())){
     		if(Promptinformation.confirmPrompt(ctlJFrame,"Confirm termination task?")==0){
     			int selectedRow = runJTable.getSelectedRow(); // 获得选中行索引
     			if(selectedRow!=-1){
-    				System.out.println("选中的是:"+runJTable.getValueAt(selectedRow, 1).toString());
-    				if(Task.endTask(8,runJTable.getValueAt(selectedRow, 1).toString())){
-    					runModel.removeRow(selectedRow); // 删除行
-    		    		Promptinformation.informationprompt(ctlJFrame,"successfully deleted");
+    				if(Task.endTask(8,runJTable.getValueAt(selectedRow, 0).toString())){
+    					String[][] list = new String[runData.length-1][2];
+    					int k=0;
+    					for(int i=0; i<selectedRow ; i++,k++){
+    						list[k][0] = runData[i][0];
+    						list[k][1] = runData[i][1];
+			    		}
+    					for(int i=selectedRow+1; i<runData.length ; i++,k++){
+    						list[k][0] = runData[i][0];
+    						list[k][1] = runData[i][1];
+			    		}
+			    		runData=list;
+			    		runModel = new DefaultTableModel(runData,Default.getTaskViewJColumnNames()){
+			    			public boolean isCellEditable(int row,int column){ 
+			    				return false;
+			    			}  
+			    		};
+			    		runJTable.setModel(runModel);
+    					Promptinformation.informationprompt(ctlJFrame,"successfully deleted");
     				}
     			}else{
 		    		Promptinformation.informationprompt(ctlJFrame,"Please select a task");
@@ -582,12 +648,16 @@ public class UI2 implements MouseListener {
 			if(refresh==null){
 				refresh = new Timer();
 				refresh.schedule(new TimerTask() {
-					public void run() {       
-		            	logJPanel.remove(lineChart);
+					public void run() {
+						logJPanel.remove(lineChart);
 		    			lineChart = Crawlergraph.createLineChart();
 		    			logJPanel.add(lineChart);
 		    			lineChart.setBounds(5, 20,940,460);
 		    			logJPanel.updateUI();
+		    			if(1==1){//网络中断
+		    	    		Promptinformation.errorPrompt(ctlJFrame,"The network connection is broken. Please try again");
+		            		refresh.cancel();
+		            	}
 		    		}
 				},0,Default.getRefreshrate()); //数据刷新频率
 			}else{
@@ -646,12 +716,27 @@ public class UI2 implements MouseListener {
 			}
 		}else if("emptydata".equals(e.getComponent().getName())){
 			if(Promptinformation.confirmPrompt(ctlJFrame,"Are you sure you want to empty the downloaded data, which is irrevocable!!!")==0){
-				if(Data.emptyData(21)){
+				int start=0,end=0;
+				if(detailed.getSelectedItem().toString().equals("ALL")){
+					switch(selectDownload.getSelectedItem().toString()){
+						case "ALL":start=0;end=Default.taskSet.length;break;
+						case "E-Commerce":start=0;end=Default.EC_News;break;
+						case "News":start=Default.EC_News;end=Default.News_Blog;break;
+						case "Blog":start=Default.News_Blog;end=Default.taskSet.length;break;
+					}
+				}else{
+					start=Operationstring.getIndex(Default.taskSet,detailed.getSelectedItem().toString());
+					end=start+1;
+				}
+				if(Data.emptyData(21,start,end)){
 					Promptinformation.informationprompt(ctlJFrame,"Has been emptied");
 				}else{
 					//清空失败操作  网络异常
 				}
 			}
+		}else if("emptyLog".equals(e.getComponent().getName())){
+			//清空下载日志
+			
 		}else if("saveSetting".equals(e.getComponent().getName())){
 			//保存设置
 			
@@ -728,6 +813,8 @@ public class UI2 implements MouseListener {
 			 refreshData.setBackground(new Color(255,255,255));
 		 }else if("emptydata".equals(e.getComponent().getName())){
 			 emptydata.setBackground(new Color(255,255,255));
+		 }else if("emptyLog".equals(e.getComponent().getName())){
+			 emptyLog.setBackground(new Color(255,255,255));
 		 }else if("picture".equals(e.getComponent().getName())){
 			 picture.setBackground(new Color(255,255,255));
 		 }else if("browse".equals(e.getComponent().getName())){
@@ -736,6 +823,8 @@ public class UI2 implements MouseListener {
 			 downloadData.setBackground(new Color(255,255,255));
 		 }else if("cancelDownloadData".equals(e.getComponent().getName())){
 			 cancelDownloadData.setBackground(new Color(255,255,255));
+		 }else if("saveSetting".equals(e.getComponent().getName())){
+			 saveSetting.setBackground(new Color(255,255,255));
 		 }
 	}
 
@@ -774,6 +863,8 @@ public class UI2 implements MouseListener {
 			 refreshData.setBackground(new Color(150,150,150));
 		 }else if("emptydata".equals(e.getComponent().getName())){
 			 emptydata.setBackground(new Color(150,150,150));
+		 }else if("emptyLog".equals(e.getComponent().getName())){
+			 emptyLog.setBackground(new Color(150,150,150));
 		 }else if("picture".equals(e.getComponent().getName())){
 			 picture.setBackground(new Color(150,150,150));
 		 }else if("browse".equals(e.getComponent().getName())){
@@ -782,6 +873,8 @@ public class UI2 implements MouseListener {
 			 downloadData.setBackground(new Color(150,150,150));
 		 }else if("cancelDownloadData".equals(e.getComponent().getName())){
 			 cancelDownloadData.setBackground(new Color(150,150,150));
+		 }else if("saveSetting".equals(e.getComponent().getName())){
+			 saveSetting.setBackground(new Color(150,150,150));
 		 }else if("zoom".equals(e.getComponent().getName())){
 			if(!flag[8]){
 				zoom.setIcon(new ImageIcon(Default.getDynamicIconPath("zoom")));//任务icon
