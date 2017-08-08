@@ -34,7 +34,7 @@ import team.qep.crawler.util.Promptinformation;
 
 public class UI implements MouseListener {
 	private JFrame ctlJFrame = new JFrame();
-	private Myjpanel ctlJPanel = new Myjpanel(Default.getImagePath(1));//主界面
+	private Myjpanel ctlJPanel = new Myjpanel("");//主界面
 	private Myjpanel logo = new Myjpanel(Default.getDynamicImagePath(21));//logo
 	private JButton closeWindow = new JButton("..."); 
 	private JButton zoom = new JButton("__"); //缩放窗口
@@ -44,7 +44,7 @@ public class UI implements MouseListener {
 	private static Point mousePosition = new Point();// 全局的位置变量，用于表示鼠标在窗口上的位置
 
 	private JLabel taskManagement = new JLabel("Task");
-	private Myjpanel taskJPanel = new Myjpanel(team.qep.crawler.basic.Default.getImagePath(2));//任务面板
+	private Myjpanel taskJPanel = new Myjpanel("");//任务面板
 	private JTextArea distributionTask = new JTextArea();//分发任务集
 	private JScrollPane distributionJSPanel = new JScrollPane(distributionTask);
 	private JComboBox defaultTask = new JComboBox(Default.getDefaultUrl());//默认任务集
@@ -56,7 +56,7 @@ public class UI implements MouseListener {
 	private JButton endTask= new JButton("endTask");//结束任务
 	
 	private JLabel monitoringData = new JLabel("Data");
-	private Myjpanel dateJPanel = new Myjpanel(team.qep.crawler.basic.Default.getImagePath(3));//数据面板
+	private Myjpanel dateJPanel = new Myjpanel("");//数据面板
 	//数据视图待添加  
 	private JPanel lineChart;
 

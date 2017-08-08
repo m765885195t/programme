@@ -11,7 +11,6 @@ public class ConvertJSON {
 	//str转为json字符串
 	public static String toJSON(int taskNumber,String content){
 		JsonObject json = new JsonObject();
-		json.addProperty("motian", "0");
 		json.addProperty("task",String.valueOf(taskNumber));
 		json.addProperty("content", content);
 		return "["+json.toString()+"]";

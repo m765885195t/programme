@@ -6,6 +6,7 @@ import team.qep.crawler.basic.Default;
 import team.qep.crawler.socket.Communication;
 import team.qep.crawler.util.ConvertJSON;
 import team.qep.crawler.util.Operationstring;
+import team.qep.crawler.util.Promptinformation;
 
 public class Task {
 	//得到正在运行的任务集
@@ -23,8 +24,8 @@ public class Task {
 			for(int j=0 ; j<2 ; j++){
 				if(j==1){
 					switch(list.get(i)[j]){
-						case "1":A[i][j] = "run";break;
-						case "2":A[i][j] = "pause";break;
+						case "1":A[i][j] = "Run";break;
+						case "2":A[i][j] = "Pause";break;
 					}
 				}else{
 					A[i][j] = list.get(i)[j];
@@ -48,21 +49,36 @@ public class Task {
 //		}
 		return true;
 	}
-	
-	//终止任务
+
+	//终止任务---
 	public static boolean endTask(int taskNumber,String string){
-//		System.out.println(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string)))+"转换后的终止任务");
-//
-//		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string))));
-//		String[] str = ConvertJSON.toStringArray(flag);
-//		if(str[1].equals("0")){
-//			return false;
-//		}
+		System.out.println(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string)))+"转换后的终止任务");
+		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string))));
+		String[] str = ConvertJSON.toStringArray(flag);
+		if(str[0].equals(String.valueOf(taskNumber))){
+			if(str[1].equals("0")){
+				return false;
+			}
+		}else{
+			return false;
+		}
+		return true;
+	}
+	//修改任务状态
+	public static boolean statusTask(int taskNumber,String string){
+		System.out.println(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string)))+"转换后的终止任务");
+		String flag = Communication.SendAndRecv(ConvertJSON.toJSON(taskNumber,String.valueOf(Operationstring.getIndex(Default.getDefaultUrl(), string))));
+		String[] str = ConvertJSON.toStringArray(flag);
+		if(str[0].equals(String.valueOf(taskNumber))){
+			if(str[1].equals("0")){
+				return false;
+			}
+		}else{
+			return false;
+		}
 		return true;
 	}
 	public static void main(String[] args){
-		System.out.println("4");
-
-		endTask(15,"www.taobao.com");
+		statusTask(8,"1");
 	}
 }

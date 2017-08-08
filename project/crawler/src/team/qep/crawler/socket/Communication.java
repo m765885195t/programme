@@ -9,15 +9,19 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import team.qep.crawler.util.Promptinformation;
+
 public class Communication{
 //	private static String IP = "120.77.201.150";
-//	private static String IP = "172.18.214.188";
-	private static String IP = "127.0.0.1";
+	private static String IP = "123.206.89.123";
+//	private static String IP = "127.0.0.1";
 //	private static String IP = "192.168.30.170";
 	private static int port = 8888;
 	
     public static String SendAndRecv(String str) {
-        String recv="[]";
+        String recv = null;
+      recv="[\"5\",1,1,2,2]";
+
         try{   
         	//1.建立客户端socket连接，指定服务器位置及端口
         	Socket socket =new Socket(IP,port);
@@ -45,14 +49,10 @@ public class Communication{
         } catch (UnknownHostException e) {
         	e.printStackTrace();
         } catch (IOException e) {
-//        	recv = new String("[\"1\",\"0 or 1\"]");
-
-//        	Promptinformation.errorPrompt(null,"Server connection off!");
-//        	System.exit(0);
+//			new Promptinformation(null, "Server connection off!",1);//１为普通窗口2为确认对话窗口
         	e.printStackTrace();
+//        	System.exit(0);
         }
-//        recv="[\"5\",1,1,2,2]";
-        recv="[\"5\"]";
         return recv;
     }
 }
